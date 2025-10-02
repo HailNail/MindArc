@@ -1,0 +1,187 @@
+import React, { useEffect, useState } from "react";
+import {
+  useAppDispatch,
+  useAppSelector,
+  type CustomFetchError,
+} from "../../types/hooks";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useRegisterMutation } from "../../redux/api/usersApiSlice";
+import {
+  Box,
+  Button,
+  Container,
+  Flex,
+  Heading,
+  Spinner,
+  Text,
+  TextField,
+  Link as RadixLink,
+  AspectRatio,
+} from "@radix-ui/themes";
+import { toast } from "react-toastify";
+import { setCredentials } from "../../redux/features/auth/authSlice";
+
+const Register = () => {
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const [register, { isLoading }] = useRegisterMutation();
+  const { userInfo } = useAppSelector((state) => state.auth);
+
+  const { search } = useLocation();
+  const sp = new URLSearchParams(search);
+  const redirect = sp.get("redirect") || "/";
+
+  useEffect(() => {
+    if (userInfo) {
+      navigate(redirect);
+    }
+  }, [navigate, redirect, userInfo]);
+
+  const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (password !== confirmPassword) {
+      toast.error("Passwords do not match");
+    } else {
+      try {
+        const res = await register({ username, email, password }).unwrap();
+        dispatch(setCredentials({ ...res }));
+        navigate(redirect);
+        toast.success("User successfully registered");
+      } catch (error) {
+        if (error && typeof error === "object" && "data" in error) {
+          const err = error as CustomFetchError;
+          toast.error(err.data.message);
+        } else {
+          // SerializedError or unknown
+          console.error(error);
+          toast.error("Something went wrong");
+        }
+      }
+    }
+  };
+
+  return (
+    <Box style={{ background: "var(--gray-3)" }} width="100vw" mt="6">
+      <Flex pl="5rem">
+        <Box mr="4" mt="6">
+          <Heading weight="medium">Register</Heading>
+          <form onSubmit={submitHandler}>
+            <Container width="20rem">
+              <Box my="3">
+                <Text as="label" htmlFor="userName" size="2" weight="medium">
+                  Username
+                </Text>
+                <TextField.Root
+                  type="text"
+                  id="username"
+                  radius="medium"
+                  mt="1"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  placeholder="Enter your name"
+                >
+                  <TextField.Slot px="1"></TextField.Slot>
+                </TextField.Root>
+              </Box>
+              <Box my="3">
+                <Text as="label" htmlFor="email" size="2" weight="medium">
+                  Email Address
+                </Text>
+                <TextField.Root
+                  type="email"
+                  id="email"
+                  radius="medium"
+                  mt="1"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Enter your Email"
+                >
+                  <TextField.Slot px="1"></TextField.Slot>
+                </TextField.Root>
+              </Box>
+              <Box my="3">
+                <Text as="label" htmlFor="password" size="2" weight="medium">
+                  Password
+                </Text>
+                <TextField.Root
+                  type="password"
+                  id="password"
+                  radius="medium"
+                  mt="1"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Enter your Password"
+                >
+                  <TextField.Slot px="1"></TextField.Slot>
+                </TextField.Root>
+              </Box>
+              <Box my="3">
+                <Text
+                  as="label"
+                  htmlFor="confirmPassword"
+                  size="2"
+                  weight="medium"
+                >
+                  Confirm Password
+                </Text>
+                <TextField.Root
+                  type="password"
+                  id="conformPassword"
+                  radius="medium"
+                  mt="1"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  placeholder="Confirm your Password"
+                >
+                  <TextField.Slot px="1"></TextField.Slot>
+                </TextField.Root>
+              </Box>
+              <Flex align="center" gapX="2">
+                <Button
+                  disabled={isLoading}
+                  type="submit"
+                  radius="medium"
+                  my="1"
+                >
+                  {isLoading ? <Spinner /> : "Register"}
+                </Button>
+              </Flex>
+            </Container>
+            <Box my="4">
+              <Text as="p">
+                Already have account?{" "}
+                <RadixLink asChild>
+                  <Link
+                    to={redirect ? `/login?redirect=${redirect}` : "/login"}
+                  >
+                    Login
+                  </Link>
+                </RadixLink>
+              </Text>
+            </Box>
+          </form>
+        </Box>
+        <AspectRatio ratio={18 / 8}>
+          <img
+            src="img-reg.png"
+            alt="register"
+            style={{
+              objectFit: "cover",
+              width: "100%",
+              height: "100%",
+              borderRadius: "var(--radius-2)",
+            }}
+          />
+        </AspectRatio>
+      </Flex>
+    </Box>
+  );
+};
+
+export default Register;

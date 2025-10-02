@@ -1,0 +1,93 @@
+BACKEND
+
+🛠 Server / API Tools
+
+express → The dojo itself 🏯. A minimal framework for building APIs and handling routes.
+
+nodemon → A watchful monk 👀. Automatically restarts your server when files change, so you don’t keep running node server.js manually.
+
+dotenv → Keeper of secrets 🔑. Loads environment variables (like database passwords, API keys) from a .env file into process.env.
+
+cors → The border guard 🚧. Controls which origins (frontends) can talk to your API, solving cross-origin request issues.
+
+concurrently → The multitasker 🌀. Lets you run multiple npm scripts (like frontend + backend) at the same time with one command.
+
+🔐 Security / Auth
+
+jsonwebtoken (JWT) → The secret scroll 📜. Used to create and verify tokens so users can stay logged in securely.
+
+cookie-parser → The sweet tooth 🍪. Parses cookies in requests, often used to store auth tokens on the client.
+
+bcryptjs → The blacksmith 🔨. Hashes and compares passwords securely, so you never store plain text passwords.
+
+📂 File / Data Handling
+
+multer → The file courier 📦. Handles file uploads (like images or PDFs) in your API.
+
+express-formidable → The scribe 📝. Parses form data (including file uploads) from incoming requests. Sometimes used instead of multer.
+
+express-async-handler → The safety net 🕸️. Wraps async route functions so you don’t have to write messy try/catch everywhere — errors go straight to Express.
+
+mongoose → The bridge to MongoDB 🌉. Lets you define schemas and interact with a MongoDB database in an object-oriented way.
+
+all together:
+
+express + nodemon + dotenv + cors + concurrently = your server dojo foundation.
+
+jsonwebtoken + cookie-parser + bcryptjs = your authentication/authorization guards.
+
+multer + formidable + async-handler + mongoose = your data + file + database workflow.
+
+FRONTEND:
+
+🎠 UI & Components
+
+slick-carousel → The original jQuery-based carousel styles and scripts. Needed as a base for react-slick.
+
+react-slick → The carousel master 🎡. A React wrapper for slick-carousel, lets you build sliders, carousels, and galleries.
+
+react-icons → The armory of icons ⚔️. Gives you access to popular icon packs (FontAwesome, Material, etc.) as React components.
+
+flowbite → Tailwind UI kit 💎. Provides prebuilt components (buttons, modals, navbars) styled with Tailwind CSS.
+
+🔔 Notifications
+
+react-toastify → The town crier 📯. Easily show toast notifications (success, error, info) with animations and auto-dismiss.
+
+🛣️ Routing
+
+react-router / react-router-dom → The road system 🛤️. Handles navigation between pages and views in your React app.
+
+react-router-dom = specifically for web (browser history, <Link>, <Route>).
+
+react-router = the core logic, used under the hood.
+
+📊 State Management
+
+react-redux → The dojo scroll keeper 📜. Connects Redux (state container) with your React components.
+
+@reduxjs/toolkit (RTK) → The upgraded katana ⚡. Simplifies Redux with less boilerplate, built-in slices, reducers, and async logic.
+
+📈 Data Visualization
+
+apexcharts → The charting engine 📊. JavaScript library for interactive charts and graphs.
+
+react-apexcharts → The bridge 🌉. A React wrapper for ApexCharts so you can use charts as components.
+
+⏳ Time Utilities
+
+moment → The timekeeper ⏰. Library for parsing, formatting, and manipulating dates/times (though nowadays date-fns is often recommended for smaller bundle size).
+
+✅ So your frontend dojo loadout is:
+
+UI/Style → slick-carousel + react-slick + flowbite + react-icons
+
+UX feedback → react-toastify
+
+Routing → react-router + react-router-dom
+
+State → react-redux + @reduxjs/toolkit
+
+Charts → apexcharts + react-apexcharts
+
+Time → moment
