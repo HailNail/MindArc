@@ -32,13 +32,13 @@ export interface ProductsResponse {
 
 export interface CreateProductInput {
   name: string;
-  price: number;
-  image: string;
-  brand: string;
-  quantity: number;
-  category: string;
   description: string;
+  price: number;
+  category: string;
+  quantity: number;
+  brand: string;
   countInStock: number;
+  image: string;
 }
 
 export interface UpdateProductInput {

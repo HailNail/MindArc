@@ -6,10 +6,16 @@ import svgr from "vite-plugin-svgr";
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), tailwindcss(), svgr()],
+  root: "..",
+  base: "/",
   server: {
     proxy: {
       "/api": "http://localhost:5000",
-      "/uploads": "http://localhost:5000",
+    },
+  },
+  resolve: {
+    alias: {
+      "@": "/frontend/src", // Example alias for easier imports
     },
   },
 });

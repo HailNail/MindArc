@@ -30,7 +30,6 @@ const ProductList = () => {
   const [quantity, setQuantity] = useState("");
   const [brand, setBrand] = useState("");
   const [stock, setStock] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
   const navigate = useNavigate();
 
   const [uploadProductImage] = useUploadProductImageMutation();
@@ -49,7 +48,6 @@ const ProductList = () => {
       const res = await uploadProductImage(formData).unwrap();
       toast.success(res.message);
       setImage(res.image);
-      setImageUrl(res.image);
     } catch (error) {
       toast.error(
         (error as CustomFetchError).data?.message || "Failed to update user"
@@ -61,16 +59,17 @@ const ProductList = () => {
     e.preventDefault();
 
     try {
-      const productData = new FormData();
-      productData.append("image", image);
-      productData.append("name", name);
-      productData.append("description", description);
-      productData.append("price", price);
-      productData.append("category", category);
-      productData.append("quantity", quantity);
-      productData.append("brand", brand);
-      productData.append("countInStock", stock);
-
+      const productData = {
+        name,
+        description,
+        price: Number(price),
+        category,
+        quantity: Number(quantity),
+        brand,
+        countInStock: Number(stock),
+        image: image,
+      };
+      console.log("Payload to backend:", productData);
       const data = await createProduct(productData).unwrap();
       toast.success(`${data.name} created successfully`);
       navigate("/");
@@ -87,10 +86,10 @@ const ProductList = () => {
         <Box width={{ md: "75%" }} p="3">
           <Heading mb="3">Create Product</Heading>
 
-          {imageUrl && (
+          {image && (
             <Box mb="2">
               <img
-                src={imageUrl}
+                src={image}
                 alt="product"
                 className="block mx-auto max-h-[200px]"
               />

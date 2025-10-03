@@ -6,7 +6,9 @@
   "scripts": {
     "backend": "nodemon backend/index.js",
     "frontend": "cd frontend && vite --port 5173",
-    "dev": "concurrently \"npm run backend\" \"npm run frontend\""
+    "dev": "concurrently \"npm run backend\" \"npm run frontend\"",
+    "start": "node index.js",
+    "build": "cd frontend && npm install && npm run build"
   },
   "keywords": [],
   "author": "",
@@ -22,6 +24,7 @@
     "@tailwindcss/vite": "^4.1.12",
     "apexcharts": "^5.3.4",
     "bcryptjs": "^3.0.2",
+    "cloudinary": "^2.7.0",
     "concurrently": "^9.2.1",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
@@ -52,6 +55,11 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.33.0",
+    "@types/cookie-parser": "^1.4.9",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/multer": "^2.0.0",
     "@types/react": "^19.1.10",
     "@types/react-dom": "^19.1.7",
     "@types/react-slick": "^0.23.13",

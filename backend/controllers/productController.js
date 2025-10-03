@@ -3,7 +3,16 @@ import Product from "../models/productModel.js";
 
 const addProduct = asyncHandler(async (req, res) => {
   try {
-    const { name, description, price, category, quantity, brand } = req.fields;
+    const {
+      name,
+      description,
+      price,
+      category,
+      quantity,
+      brand,
+      image,
+      countInStock,
+    } = req.body;
 
     //validation
     switch (true) {
@@ -19,9 +28,20 @@ const addProduct = asyncHandler(async (req, res) => {
         return res.json({ error: "Quantity is required" });
       case !brand:
         return res.json({ error: "Brand is required" });
+      case !image:
+        return res.status(400).json({ error: "Image URL is required" });
     }
 
-    const product = new Product({ ...req.fields });
+    const product = new Product({
+      name,
+      description,
+      price,
+      category,
+      quantity,
+      brand,
+      image,
+      countInStock,
+    });
     await product.save();
     res.json(product);
   } catch (error) {
@@ -32,7 +52,7 @@ const addProduct = asyncHandler(async (req, res) => {
 
 const updateProductDetails = asyncHandler(async (req, res) => {
   try {
-    const { name, description, price, category, quantity, brand } = req.fields;
+    const { name, description, price, category, quantity, brand } = req.body;
 
     //validation
     switch (true) {
@@ -52,10 +72,23 @@ const updateProductDetails = asyncHandler(async (req, res) => {
 
     const product = await Product.findByIdAndUpdate(
       req.params.id,
-      { ...req.fields },
-      { new: true }
+      {
+        name,
+        description,
+        price,
+        category,
+        quantity,
+        brand,
+        image,
+        countInStock,
+      },
+      { new: true, runValidators: true }
     );
-    await product.save();
+
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
     res.json(product);
   } catch (error) {
     console.error(error);

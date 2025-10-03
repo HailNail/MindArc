@@ -7,6 +7,7 @@ import type {
   CreateReviewInput,
   UploadImageResponse,
   ProductsResponse,
+  CreateProductInput,
 } from "../../types/productTypes";
 
 export const productApiSlice = apiSlice.injectEndpoints({
@@ -38,7 +39,7 @@ export const productApiSlice = apiSlice.injectEndpoints({
       keepUnusedDataFor: 5,
     }),
 
-    createProduct: builder.mutation<Product, FormData>({
+    createProduct: builder.mutation<Product, CreateProductInput>({
       query: (productData) => ({
         url: `${PRODUCT_URL}`,
         method: "POST",

@@ -10,4 +10,9 @@ export default {
   jwt: process.env.JWT_SECRET,
   node: process.env.NODE_ENV,
   mongo: process.env.MONGO_URI,
+  cloudinary: {
+    cloudName: process.env.CLOUDINARY_NAME,
+    apiSecret: process.env.CLOUDINARY_API_SECRET,
+    apiKey: process.env.CLOUDINARY_API_KEY,
+  },
 };
