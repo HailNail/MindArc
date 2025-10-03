@@ -22,6 +22,7 @@ const app = express();
 
 const allowedOrigins = [
   "https://mind-arc-mu.vercel.app",
+  "https://mind-arc-api.onrender.com",
   "http://localhost:5173",
 ];
 
