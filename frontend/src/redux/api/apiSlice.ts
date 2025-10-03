@@ -1,10 +1,14 @@
 import { fetchBaseQuery, createApi } from "@reduxjs/toolkit/query/react";
 import { BASE_URL } from "../constants";
 
-const baseQuery = fetchBaseQuery({ baseUrl: BASE_URL });
+const BASE_URL_FALLBACK = import.meta.env.VITE_BASE_URL || "";
+
+const baseQuery = fetchBaseQuery({
+  baseUrl: BASE_URL_FALLBACK,
+});
 
 export const apiSlice = createApi({
-  baseQuery: import.meta.env.VITE_BASE_URL,
+  baseQuery,
   tagTypes: ["Product", "Order", "User", "Category"],
   endpoints: () => ({}),
 });
