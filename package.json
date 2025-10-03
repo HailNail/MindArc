@@ -8,7 +8,7 @@
     "frontend": "cd frontend && vite --port 5173",
     "dev": "concurrently \"npm run backend\" \"npm run frontend\"",
     "start": "node backend/index.js",
-    "build": "cd frontend && vite build"
+    "build": "vite build frontend"
   },
   "keywords": [],
   "author": "",

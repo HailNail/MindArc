@@ -50,7 +50,7 @@ const __dirname = path.resolve();
 
 if (config.node === "production") {
   // 1. Serve the built frontend files
-  app.use(express.static(path.join(__dirname, "/frontend/dist")));
+  app.use(express.static(path.join(__dirname, "frontend", "frontend")));
 
   app.get("*", (req, res) =>
     res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"))
