@@ -42,57 +42,12 @@ const corsOptions = {
     return callback(null, true);
   },
   credentials: true,
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: [
-    "Content-Type",
-    "Authorization",
-    "X-Requested-With",
-    "Cookie",
-  ],
-  exposedHeaders: ["Set-Cookie"],
 };
 
 app.use(cors(corsOptions));
-
-app.use((req, res, next) => {
-  const origin = req.headers.origin;
-  if (allowedOrigins.includes(origin)) {
-    res.header("Access-Control-Allow-Origin", origin);
-  }
-  res.header("Access-Control-Allow-Credentials", "true");
-  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept, Authorization, Cookie"
-  );
-  next();
-});
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.options("*", cors(corsOptions));
-
-app.use((req, res, next) => {
-  console.log("Cookies received:", req.cookies);
-  console.log("Origin:", req.headers.origin);
-  next();
-});
-
-app.get("/api/debug-cookie", (req, res) => {
-  res.cookie("debug_cookie", "test_value", {
-    httpOnly: true,
-    secure: true,
-    sameSite: "none",
-    maxAge: 24 * 60 * 60 * 1000,
-    path: "/",
-  });
-
-  res.json({
-    message: "Debug cookie set",
-    cookiesReceived: req.cookies,
-  });
-});
 
 app.use("/api/users", userRoutes);
 app.use("/api/category", categoryRoutes);
