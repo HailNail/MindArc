@@ -9,8 +9,8 @@ const generateToken = (res, userId) => {
   // set JWT as on HTTP-only Cokkie
   res.cookie("jwt", token, {
     httpOnly: true,
-    secure: config.node !== "development",
-    sameSite: "strict",
+    secure: true,
+    sameSite: "none",
     maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
   });
 
