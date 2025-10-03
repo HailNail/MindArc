@@ -13,14 +13,6 @@ export default defineConfig({
   },
   plugins: [react(), tailwindcss(), svgr()],
   base: "./",
-  server: {
-    proxy: {
-      "/api": {
-        target: "http://localhost:5000",
-        changeOrigin: true,
-      },
-    },
-  },
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "src"),
