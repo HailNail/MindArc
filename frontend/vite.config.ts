@@ -6,13 +6,13 @@ import path from "path";
 
 // https://vite.dev/config/
 export default defineConfig({
-  root: path.resolve(__dirname, "."),
+  root: path.resolve(__dirname),
   build: {
     outDir: "dist",
     emptyOutDir: true,
   },
   plugins: [react(), tailwindcss(), svgr()],
-  base: "/",
+  base: "./",
   server: {
     proxy: {
       "/api": {
