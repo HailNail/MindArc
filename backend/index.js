@@ -48,13 +48,18 @@ app.get("/api/config/stripe", (req, res) => {
 
 const __dirname = path.resolve();
 
-if (config.node === "production") {
-  // 1. Serve the built frontend files
-  app.use(express.static(path.join(__dirname, "frontend", "frontend")));
-
-  app.get("*", (req, res) =>
-    res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"))
+if (process.env.NODE_ENV === "production") {
+  console.log(
+    "Production mode: Serving static files from",
+    path.join(__dirname, "frontend", "dist")
   );
+  // Serve static files from the frontend dist directory
+  app.use(express.static(path.join(__dirname, "frontend", "dist")));
+
+  // Handle SPA routing - serve index.html for all unknown routes
+  app.get(/^\/(?!api).*/, (req, res) => {
+    res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"));
+  });
 } else {
   // Simple check for local dev
   app.get("/", (req, res) => {

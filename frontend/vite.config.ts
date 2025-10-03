@@ -2,23 +2,28 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import svgr from "vite-plugin-svgr";
+import path from "path";
 
 // https://vite.dev/config/
 export default defineConfig({
-  root: "..",
+  root: path.resolve(__dirname, "."),
   build: {
-    outDir: 'frontend/dist', 
+    outDir: "dist",
+    emptyOutDir: true,
   },
   plugins: [react(), tailwindcss(), svgr()],
   base: "/",
   server: {
     proxy: {
-      "/api": "http://localhost:5000",
+      "/api": {
+        target: "http://localhost:5000",
+        changeOrigin: true,
+      },
     },
   },
   resolve: {
     alias: {
-      "@": "/frontend/src", // Example alias for easier imports
+      "@": path.resolve(__dirname, "src"),
     },
   },
 });
