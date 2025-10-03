@@ -22,16 +22,29 @@ const app = express();
 
 const allowedOrigins = [
   "https://mind-arc-mu.vercel.app",
-  "https://mind-arc-api.onrender.com",
+  "https://mind-8rtfvj6v6-hailnails-projects.vercel.app",
+
+  "http://localhost:3000",
   "http://localhost:5173",
 ];
 
-app.use(
-  cors({
-    origin: allowedOrigins,
-    credentials: true,
-  })
-);
+const corsOptions = {
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or postman)
+    if (!origin) return callback(null, true);
+
+    // Check if the origin is in our allowed list
+    if (allowedOrigins.indexOf(origin) === -1) {
+      const msg =
+        "The CORS policy for this site does not allow access from the specified Origin.";
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  },
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
