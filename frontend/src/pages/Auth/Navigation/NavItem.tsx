@@ -8,6 +8,7 @@ type NavItemProps = {
   pinned: boolean;
   extension?: React.ReactNode;
   isOpen: boolean;
+  setIsOpen: (() => void) | undefined;
   mobileVersion: boolean;
 };
 
@@ -20,6 +21,7 @@ const NavItem = ({
   pinned,
   extension,
   isOpen,
+  setIsOpen,
   mobileVersion,
 }: NavItemProps) => {
   return (
@@ -28,8 +30,9 @@ const NavItem = ({
       whileHover={{ x: 2 }}
       whileTap={{ scale: 0.95 }}
       transition={{ type: "spring", stiffness: 300 }}
+      onClick={setIsOpen}
     >
-      <Box position="relative" mr="2" className="cursor-pointer">
+      <Box position="relative" mr="2">
         <AnimatePresence>
           {isOpen ? (
             <motion.span
