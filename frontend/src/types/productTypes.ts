@@ -43,7 +43,14 @@ export interface CreateProductInput {
 
 export interface UpdateProductInput {
   productId: string;
-  formData: FormData;
+  name: string;
+  description: string;
+  price: number;
+  category: string;
+  quantity: number;
+  brand: string;
+  countInStock: number;
+  image: string;
 }
 
 export interface CreateReviewInput {

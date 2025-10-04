@@ -9,7 +9,9 @@ export default {
   portEnv: process.env.PORT,
   jwt: process.env.JWT_SECRET,
   node: process.env.NODE_ENV,
+  nodeLocal: process.env.NODE_ENV_LOCAL,
   mongo: process.env.MONGO_URI,
+  mongoLocal: process.env.MONGO_LOCAL,
   cloudinary: {
     cloudName: process.env.CLOUDINARY_NAME,
     apiSecret: process.env.CLOUDINARY_API_SECRET,

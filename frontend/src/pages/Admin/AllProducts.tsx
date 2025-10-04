@@ -44,6 +44,7 @@ const AllProducts = () => {
                 width={{ initial: "20rem", md: "22rem" }}
                 position="relative"
                 m="1"
+                key={product._id}
               >
                 <Card>
                   <Inset clip="padding-box" side="top" pb="current">

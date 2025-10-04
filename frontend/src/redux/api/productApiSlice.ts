@@ -49,11 +49,12 @@ export const productApiSlice = apiSlice.injectEndpoints({
     }),
 
     updateProduct: builder.mutation<Product, UpdateProductInput>({
-      query: ({ productId, formData }) => ({
+      query: ({ productId, ...body }) => ({
         url: `${PRODUCT_URL}/${productId}`,
         method: "PUT",
-        body: formData,
+        body,
       }),
+      invalidatesTags: ["Product"],
     }),
 
     uploadProductImage: builder.mutation<UploadImageResponse, FormData>({

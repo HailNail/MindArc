@@ -85,19 +85,20 @@ const ProductUpdate = () => {
       return;
     }
     try {
-      const formData = new FormData();
-      formData.append("image", image);
-      formData.append("name", name);
-      formData.append("description", description);
-      formData.append("price", price.toString());
-      formData.append("category", category);
-      formData.append("quantity", quantity.toString());
-      formData.append("brand", brand);
-      formData.append("countInStock", stock.toString());
+      const productData = {
+        name,
+        description,
+        price: Number(price),
+        category,
+        quantity: Number(quantity),
+        brand,
+        countInStock: Number(stock),
+        image: image,
+      };
 
       await updateProduct({
         productId: params._id,
-        formData,
+        ...productData,
       }).unwrap();
 
       toast.success("Product successfully updated");

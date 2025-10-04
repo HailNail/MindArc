@@ -52,22 +52,35 @@ const addProduct = asyncHandler(async (req, res) => {
 
 const updateProductDetails = asyncHandler(async (req, res) => {
   try {
-    const { name, description, price, category, quantity, brand } = req.body;
+    const {
+      name,
+      description,
+      price,
+      category,
+      quantity,
+      brand,
+      image,
+      countInStock,
+    } = req.body;
 
     //validation
     switch (true) {
       case !name:
-        return res.json({ error: "Name is required" });
+        return res.status(400).json({ error: "Name is required" });
       case !description:
-        return res.json({ error: "Description is required" });
+        return res.status(400).json({ error: "Description is required" });
       case !price:
-        return res.json({ error: "Price is required" });
+        return res.status(400).json({ error: "Price is required" });
       case !category:
-        return res.json({ error: "Category is required" });
+        return res.status(400).json({ error: "Category is required" });
       case !quantity:
-        return res.json({ error: "Quantity is required" });
+        return res.status(400).json({ error: "Quantity is required" });
       case !brand:
-        return res.json({ error: "Brand is required" });
+        return res.status(400).json({ error: "Brand is required" });
+      case !image:
+        return res.status(400).json({ error: "Image URL is required" });
+      case !countInStock:
+        return res.status(400).json({ error: "Count in stock is required" });
     }
 
     const product = await Product.findByIdAndUpdate(

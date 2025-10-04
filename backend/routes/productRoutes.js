@@ -35,7 +35,7 @@ router.get("/new", fetchNewProducts);
 router
   .route("/:id")
   .get(fetchProductById)
-  .put(authenticate, authorizedAdmin, formidable(), updateProductDetails)
+  .put(authenticate, authorizedAdmin, updateProductDetails)
   .delete(authenticate, authorizedAdmin, removeProduct);
 
 router.route("/filtered-products").post(filterProducts);
