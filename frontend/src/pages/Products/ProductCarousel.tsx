@@ -26,28 +26,6 @@ import {
   FaStore,
 } from "react-icons/fa";
 
-const NextArrow = ({ onClick }: { onClick?: () => void }) => (
-  <IconButton
-    onClick={onClick}
-    radius="full"
-    variant="soft"
-    className="!absolute !-right-10 !top-1/2 -translate-y-1/2 z-10 hidden md:flex"
-  >
-    <FaChevronRight className="w-5 h-5" />
-  </IconButton>
-);
-
-const PrevArrow = ({ onClick }: { onClick?: () => void }) => (
-  <IconButton
-    radius="full"
-    variant="soft"
-    onClick={onClick}
-    className="!absolute !-left-10 !top-1/2 -translate-y-1/2 z-10 hidden md:flex"
-  >
-    <FaChevronLeft className="w-5 h-5" />
-  </IconButton>
-);
-
 const ProductCarousel = () => {
   const { data: products, isLoading, error } = useGetTopProductsQuery();
 
@@ -57,19 +35,10 @@ const ProductCarousel = () => {
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    nextArrow: <NextArrow />,
-    prevArrow: <PrevArrow />,
+    arrows: false,
     autoplay: true,
     autoplaySpeed: 3000,
     swipe: true,
-    responsive: [
-      {
-        breakpoint: 768, // md breakpoint
-        settings: {
-          arrows: false, // hide arrows
-        },
-      },
-    ],
   };
   return (
     <Box mt="7" display="block">

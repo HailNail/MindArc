@@ -50,7 +50,7 @@ const CheckoutForm = ({ orderId, payOrder, refetch }: CheckoutFormProps) => {
   return (
     <form onSubmit={handleSubmit}>
       <PaymentElement />
-      <Button mt="4" type="submit" disabled={!stripe}>
+      <Button style={{ width: "100%" }} mt="4" type="submit" disabled={!stripe}>
         Pay now
       </Button>
     </form>

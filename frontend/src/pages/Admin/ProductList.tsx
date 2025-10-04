@@ -80,105 +80,109 @@ const ProductList = () => {
   };
 
   return (
-    <Container ml={{ initial: "0", md: "4rem", xl: "0" }} mt="7">
-      <Flex direction={{ initial: "column", md: "row" }}>
+    <Container ml={{ initial: "0", md: "4rem" }} mt="7" size="3">
+      <Flex>
         <AdminMenu />
-        <Box width={{ md: "75%" }} p="3">
-          <Heading mb="3">Create Product</Heading>
+
+        <Box p={{ initial: "3", md: "5" }} flexGrow="1">
+          <Heading as="h1" size="7" mb="5">
+            Create New Product
+          </Heading>
 
           {image && (
-            <Box mb="2">
+            <Box mb="4">
               <img
                 src={image}
-                alt="product"
-                className="block mx-auto max-h-[200px]"
+                alt="Product Preview"
+                className="block mx-auto max-h-[250px] w-auto rounded-lg shadow-md"
               />
             </Box>
           )}
-          <label className="cursor-pointer">
+          <label className="cursor-pointer" style={{ width: "100%" }}>
             <Box
-              mb="3"
+              mb="5"
               display="block"
-              py="8"
-              className="border-2 border-dotted rounded-lg text-center "
+              py="6"
+              className="border-2 border-dotted border-[var(--gray-4)] hover:border-[var(--teal-5)] rounded-xl text-center transition-colors"
             >
-              <Text align="center" weight="bold">
+              <Text weight="bold" color="gray">
+                {image ? "Change Image" : "Click to select image"}
                 <input
                   type="file"
                   name="image"
                   accept="image/*"
                   onChange={uploadFileHandler}
+                  style={{ display: "none" }}
                 />
               </Text>
             </Box>
           </label>
-          <Box>
-            <Flex wrap="wrap">
-              <Box>
-                <Text as="label" htmlFor="name">
+
+          <Flex direction="column" gap="4">
+            <Flex gap="4" wrap="wrap">
+              <Box flexGrow="1" minWidth="15rem">
+                <Text as="label" weight="bold" mb="1" htmlFor="name">
                   Name
-                </Text>{" "}
+                </Text>
                 <TextField.Root
                   type="text"
                   radius="medium"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                >
-                  <TextField.Slot pl="1"></TextField.Slot>
-                </TextField.Root>
+                />
               </Box>
-              <Box ml="4">
-                <Text as="label" htmlFor="name block">
+              <Box flexGrow="1" minWidth="15rem">
+                <Text as="label" weight="bold" mb="1" htmlFor="price">
                   Price
-                </Text>{" "}
+                </Text>
                 <TextField.Root
                   type="number"
                   radius="medium"
                   value={price}
                   onChange={(e) => setPrice(e.target.value)}
-                >
-                  <TextField.Slot pl="1"></TextField.Slot>
-                </TextField.Root>
+                />
               </Box>
             </Flex>
-            <Flex wrap="wrap" my="2">
-              <Box>
-                <Text as="label" htmlFor="name block">
+
+            <Flex gap="4" wrap="wrap">
+              <Box flexGrow="1" minWidth="15rem">
+                <Text as="label" weight="bold" mb="1" htmlFor="quantity">
                   Quantity
-                </Text>{" "}
+                </Text>
                 <TextField.Root
                   type="number"
                   radius="medium"
                   value={quantity}
                   onChange={(e) => setQuantity(e.target.value)}
-                >
-                  <TextField.Slot pl="1"></TextField.Slot>
-                </TextField.Root>
+                />
               </Box>
-              <Box ml="4">
-                <Text as="label" htmlFor="name block">
+              <Box flexGrow="1" minWidth="15rem">
+                <Text as="label" weight="bold" mb="1" htmlFor="brand">
                   Brand
-                </Text>{" "}
+                </Text>
                 <TextField.Root
                   type="text"
                   radius="medium"
                   value={brand}
                   onChange={(e) => setBrand(e.target.value)}
-                >
-                  <TextField.Slot pl="1"></TextField.Slot>
-                </TextField.Root>
+                />
               </Box>
             </Flex>
-            <Text as="label">Description</Text>
-            <TextArea
-              mb="2"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-            ></TextArea>
 
-            <Flex>
-              <Box>
-                <Text as="label" htmlFor="name block">
+            <Box>
+              <Text as="label" weight="bold" mb="1">
+                Description
+              </Text>
+              <TextArea
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                rows={4}
+              />
+            </Box>
+
+            <Flex gap="4" wrap="wrap">
+              <Box flexGrow="1" minWidth="15rem">
+                <Text as="label" weight="bold" mb="1">
                   Count In Stock
                 </Text>
                 <TextField.Root
@@ -186,15 +190,19 @@ const ProductList = () => {
                   radius="medium"
                   value={stock}
                   onChange={(e) => setStock(e.target.value)}
-                >
-                  <TextField.Slot pl="1"></TextField.Slot>
-                </TextField.Root>
+                />
               </Box>
-              <Box ml="4">
-                <Text as="label">Category</Text> <br />
+              <Flex direction="column" flexGrow="1" minWidth="15rem">
+                <Text as="label" weight="bold">
+                  Category
+                </Text>
+
                 <Select.Root value={category} onValueChange={setCategory}>
-                  <Select.Trigger placeholder="Category" />
-                  <Select.Content position="popper">
+                  <Select.Trigger placeholder="Select Category" />
+                  <Select.Content
+                    position="popper"
+                    style={{ maxHeight: "200px", overflowY: "auto" }}
+                  >
                     <Select.Group>
                       {categories?.map((c) => (
                         <Select.Item key={c._id} value={c._id}>
@@ -204,12 +212,18 @@ const ProductList = () => {
                     </Select.Group>
                   </Select.Content>
                 </Select.Root>
-              </Box>
+              </Flex>
             </Flex>
-            <Button onClick={handleSubmit} mt="4">
-              Submit
+
+            <Button
+              onClick={handleSubmit}
+              mt="4"
+              size="3"
+              style={{ width: "100%" }}
+            >
+              Create Product
             </Button>
-          </Box>
+          </Flex>
         </Box>
       </Flex>
     </Container>

@@ -18,7 +18,7 @@ interface ProductProps {
 
 const Products = ({ product }: ProductProps) => {
   return (
-    <Box width={{ initial: "20rem", md: "18rem" }} position="relative" m="1">
+    <Box width={{ initial: "20rem", md: "18rem" }} position="relative" m="2">
       <Card>
         <Inset clip="padding-box" side="top" pb="current">
           <Box position="relative">

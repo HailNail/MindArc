@@ -194,6 +194,7 @@ const PlaceOrder = () => {
 
             <Button
               mt="4"
+              ml={{ initial: "3", md: "0" }}
               type="submit"
               disabled={cart.cartItems.length === 0}
               onClick={placeOrderHandler}

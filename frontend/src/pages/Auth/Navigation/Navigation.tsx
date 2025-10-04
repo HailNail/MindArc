@@ -33,6 +33,7 @@ import CartCount from "../../CartCount";
 
 interface NavigationProps {
   isOpen: boolean;
+  setIsOpen: () => void;
   mobileVersion: boolean;
   isAtTop: boolean;
   sidebarRef: React.Ref<HTMLDivElement>;
@@ -70,6 +71,7 @@ const itemVariants = {
 
 const Navigation = ({
   isOpen,
+  setIsOpen,
   mobileVersion,
   isAtTop,
   sidebarRef,
@@ -130,46 +132,54 @@ const Navigation = ({
       {/* Navigation Items */}
       <MotionFlex direction="column" gapY="4" mt="6">
         <Link to="/">
-          <NavItem
-            icon={<AiOutlineHome size={26} />}
-            label="HOME"
-            expanded={expanded}
-            pinned={pinned}
-            isOpen={isOpen}
-            mobileVersion={mobileVersion}
-          />
+          <Box onClick={setIsOpen}>
+            <NavItem
+              icon={<AiOutlineHome size={26} />}
+              label="HOME"
+              expanded={expanded}
+              pinned={pinned}
+              isOpen={isOpen}
+              mobileVersion={mobileVersion}
+            />
+          </Box>
         </Link>
         <Link to="/shop">
-          <NavItem
-            icon={<AiOutlineShopping size={26} />}
-            label="SHOP"
-            expanded={expanded}
-            pinned={pinned}
-            isOpen={isOpen}
-            mobileVersion={mobileVersion}
-          />
+          <Box onClick={setIsOpen}>
+            <NavItem
+              icon={<AiOutlineShopping size={26} />}
+              label="SHOP"
+              expanded={expanded}
+              pinned={pinned}
+              isOpen={isOpen}
+              mobileVersion={mobileVersion}
+            />
+          </Box>
         </Link>
         <Link to="/cart">
-          <NavItem
-            icon={<AiOutlineShoppingCart size={26} />}
-            label="CART"
-            expanded={expanded}
-            pinned={pinned}
-            extension={<CartCount />}
-            isOpen={isOpen}
-            mobileVersion={mobileVersion}
-          />
+          <Box onClick={setIsOpen}>
+            <NavItem
+              icon={<AiOutlineShoppingCart size={26} />}
+              label="CART"
+              expanded={expanded}
+              pinned={pinned}
+              extension={<CartCount />}
+              isOpen={isOpen}
+              mobileVersion={mobileVersion}
+            />
+          </Box>
         </Link>
         <Link to="/favorite">
-          <NavItem
-            icon={<AiOutlineHeart size={26} />}
-            label="FAVORITES"
-            expanded={expanded}
-            pinned={pinned}
-            extension={<FavoritesCount />}
-            isOpen={isOpen}
-            mobileVersion={mobileVersion}
-          />
+          <Box onClick={setIsOpen}>
+            <NavItem
+              icon={<AiOutlineHeart size={26} />}
+              label="FAVORITES"
+              expanded={expanded}
+              pinned={pinned}
+              extension={<FavoritesCount />}
+              isOpen={isOpen}
+              mobileVersion={mobileVersion}
+            />
+          </Box>
         </Link>
       </MotionFlex>
       <Box position="relative" mb="3">
@@ -191,6 +201,7 @@ const Navigation = ({
                     <MotionButton
                       variant="surface"
                       ml="2"
+                      mb="4"
                       key="button"
                       initial="hidden"
                       animate="visible"

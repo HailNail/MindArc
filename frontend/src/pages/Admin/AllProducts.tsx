@@ -38,10 +38,14 @@ const AllProducts = () => {
           <Heading ml="2" mb="3" weight="bold">
             All Products ({products?.length})
           </Heading>
-          <Grid columns="3" gap="3" width="auto">
+          <Grid
+            columns={{ initial: "1", md: "2", lg: "3" }}
+            gap="3"
+            width="auto"
+          >
             {products?.map((product) => (
               <Box
-                width={{ initial: "20rem", md: "22rem" }}
+                width={{ initial: "18rem", md: "22rem" }}
                 position="relative"
                 m="1"
                 key={product._id}

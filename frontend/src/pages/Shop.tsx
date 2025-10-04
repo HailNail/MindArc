@@ -104,7 +104,7 @@ const Shop = () => {
             onClick={toggleFilter}
             variant="soft"
             size="4"
-            style={{ width: "100vw" }}
+            style={{ width: "100%" }}
           >
             {isFilterOpen ? "Hide Filters" : "Show Filters"}
           </Button>
@@ -207,7 +207,7 @@ const Shop = () => {
               </Flex>
             ) : (
               products?.map((p) => (
-                <Box p="3" key={p._id}>
+                <Box key={p._id}>
                   <ProductCard product={p} />
                 </Box>
               ))

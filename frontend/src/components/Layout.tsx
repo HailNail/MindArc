@@ -67,6 +67,7 @@ const Layout = () => {
     <>
       <Navigation
         isOpen={isSidebarOpen}
+        setIsOpen={() => setIsSidebarOpen(!isSidebarOpen)}
         mobileVersion={mobileVersion}
         isAtTop={isAtTop}
         sidebarRef={sidebarRef}
