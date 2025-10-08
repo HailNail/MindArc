@@ -67,10 +67,16 @@ const Register = () => {
   };
 
   return (
-    <Box style={{ background: "var(--gray-3)" }} width="100vw" mt="6">
-      <Flex pl="5rem">
+    <Box width="100%" pl={{ initial: "0", md: "14rem" }} mt="6">
+      <Flex
+        pl={{ initial: "0", md: "5rem" }}
+        direction={{ initial: "column", md: "row" }}
+        gap="3"
+      >
         <Box mr="4" mt="6">
-          <Heading weight="medium">Register</Heading>
+          <Heading weight="medium" align={{ initial: "center", md: "left" }}>
+            Register
+          </Heading>
           <form onSubmit={submitHandler}>
             <Container width="20rem">
               <Box my="3">
@@ -152,19 +158,19 @@ const Register = () => {
                   {isLoading ? <Spinner /> : "Register"}
                 </Button>
               </Flex>
+              <Box my="4">
+                <Text as="p">
+                  Already have account?{" "}
+                  <RadixLink asChild>
+                    <Link
+                      to={redirect ? `/login?redirect=${redirect}` : "/login"}
+                    >
+                      Login
+                    </Link>
+                  </RadixLink>
+                </Text>
+              </Box>
             </Container>
-            <Box my="4">
-              <Text as="p">
-                Already have account?{" "}
-                <RadixLink asChild>
-                  <Link
-                    to={redirect ? `/login?redirect=${redirect}` : "/login"}
-                  >
-                    Login
-                  </Link>
-                </RadixLink>
-              </Text>
-            </Box>
           </form>
         </Box>
         <AspectRatio ratio={18 / 8}>
