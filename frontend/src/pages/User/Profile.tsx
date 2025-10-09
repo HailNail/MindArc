@@ -125,7 +125,7 @@ const Profile = () => {
                 Confirm Password
               </Text>
               <TextField.Root
-                type="text"
+                type="password"
                 placeholder="Confirm your password"
                 value={confirmPassword}
                 mt="1"

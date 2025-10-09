@@ -1,6 +1,7 @@
 export type User = {
   _id: string;
   username: string;
+  password?: string;
   email: string;
   isAdmin: boolean;
 };
@@ -9,6 +10,7 @@ export type UserInfo = {
   _id: string;
   username: string;
   email: string;
+  password?: string;
   isAdmin?: boolean;
   token?: string;
 };
@@ -35,6 +37,7 @@ export type RegisterRequest = {
 export type UpdateUserRequest = {
   userId: string;
   username?: string;
+  password?: string;
   email?: string;
   isAdmin?: boolean;
 };
