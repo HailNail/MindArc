@@ -1,9 +1,10 @@
+import path from "path";
+
 // packages
 import config from "./config/config.js";
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import path from "path";
 
 // utils
 import connectDB from "./config/db.js";
