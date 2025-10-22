@@ -8,6 +8,7 @@
     "frontend": "npm --prefix frontend run dev",
     "dev": "concurrently \"npm run backend\" \"npm run frontend\"",
     "start": "dotenv -e .env -- npm --prefix backend run start",
+    "install": "npm --prefix frontend install",
     "build": "npm --prefix frontend run build"
   },
   "keywords": [],
