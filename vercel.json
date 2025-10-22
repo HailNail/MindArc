@@ -6,6 +6,7 @@
       "config": { "distDir": "frontend/dist" }
     }
   ],
+  "outputDirectory": "frontend/dist",
   "rewrites": [
     {
       "source": "/api/(.*)",
