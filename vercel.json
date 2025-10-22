@@ -2,10 +2,17 @@
   "buildCommand": "npm --prefix frontend run build",
   "installCommand": "npm --prefix frontend install",
   "outputDirectory": "frontend/dist",
-  "rewrites": [
+  "routes": [
     {
-      "source": "/api/(.*)",
-      "destination": "https://mind-arc-api.onrender.com/api/$1"
+      "src": "/api/(.*)",
+      "dest": "https://mind-arc-api.onrender.com/api/$1"
+    },
+    {
+      "handle": "filesystem"
+    },
+    {
+      "src": "/.*",
+      "dest": "/index.html"
     }
   ]
 }
