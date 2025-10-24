@@ -20,20 +20,19 @@ const SmallProduct = ({ product }: SmallProductProps) => {
   return (
     <Box width={{ initial: "20rem", md: "18rem" }} m="1">
       <Card>
-        <Inset clip="padding-box" side="top" pb="current">
-          <Box position="relative">
-            <AspectRatio ratio={4 / 3}>
-              <img
-                src={product.image}
-                alt={product.name}
-                className="w-full h-full rounded object-cover"
-              />
-            </AspectRatio>
-            <HeartIcon product={product} />
-          </Box>
-        </Inset>
-
         <Link to={`/product/${product._id}`}>
+          <Inset clip="padding-box" side="top" pb="current">
+            <Box position="relative">
+              <AspectRatio ratio={4 / 3}>
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  className="w-full h-full rounded object-cover"
+                />
+              </AspectRatio>
+            </Box>
+          </Inset>
+
           <Flex justify="between" align="center">
             <Heading size="3" truncate>
               {product.name}
@@ -44,6 +43,7 @@ const SmallProduct = ({ product }: SmallProductProps) => {
             </Badge>
           </Flex>
         </Link>
+        <HeartIcon product={product} />
       </Card>
     </Box>
   );

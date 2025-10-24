@@ -12,6 +12,7 @@ import HeartIcon from "./HeartIcon";
 import { useState } from "react";
 import {
   AspectRatio,
+  Badge,
   Box,
   Button,
   Container,
@@ -127,6 +128,24 @@ const ProductDetails = () => {
                       alt={product.name}
                       className="w-full h-full object-cover rounded-lg"
                     />
+                    {product.countInStock === 0 && (
+                      <Flex
+                        position="absolute"
+                        top="50%"
+                        left="50%"
+                        style={{ transform: "translate(-50%, -50%)" }}
+                        align="center"
+                        justify="center"
+                      >
+                        <Badge
+                          radius="full"
+                          color="ruby"
+                          size={{ initial: "3", md: "1", lg: "2" }}
+                        >
+                          {`The product is out of stock`}
+                        </Badge>
+                      </Flex>
+                    )}
                   </AspectRatio>
                 </Box>
                 <HeartIcon product={product} />
@@ -208,7 +227,7 @@ const ProductDetails = () => {
                   <Box>
                     <Button
                       onClick={addToCardHandler}
-                      disabled={product.countInStock === 1}
+                      disabled={product.countInStock === 0}
                       radius="medium"
                       mt={{ initial: "4", md: "0" }}
                     >

@@ -1,6 +1,10 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../types/hooks";
-import { addToCart, removeFromCart } from "../redux/features/cart/cartSlice";
+import {
+  addToCart,
+  removeFromCart,
+  updateCartQuantity,
+} from "../redux/features/cart/cartSlice";
 import {
   Box,
   Container,
@@ -14,6 +18,11 @@ import {
 } from "@radix-ui/themes";
 import type { CartItem } from "../types/cartTypes";
 import { FaTrash } from "react-icons/fa";
+import { toast } from "react-toastify";
+import { useEffect } from "react";
+import { apiSlice } from "../redux/api/apiSlice";
+import { orderApiSlice } from "../redux/api/orderApiSlice";
+import { productApiSlice } from "../redux/api/productApiSlice";
 
 const Cart = () => {
   const navigate = useNavigate();
@@ -22,8 +31,8 @@ const Cart = () => {
   const cart = useAppSelector((state) => state.cart);
   const { cartItems } = cart;
 
-  const addToCartHandler = (item: CartItem, quantity: number) => {
-    dispatch(addToCart({ ...item, quantity }));
+  const updateQuantityHandler = (productId: string, quantity: number) => {
+    dispatch(updateCartQuantity({ _id: productId, quantity }));
   };
 
   const removeFromCartHandler = (id: string) => {
@@ -33,6 +42,17 @@ const Cart = () => {
   const checkoutHandler = () => {
     navigate("/login?redirect=/shipping");
   };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      cartItems.forEach((item) => {
+        dispatch(
+          productApiSlice.endpoints.getProductDetails.initiate(item._id)
+        );
+      });
+    }, 30000);
+    return () => clearInterval(interval);
+  }, [cartItems, dispatch]);
   return (
     <Container ml={{ initial: "0", md: "4rem" }}>
       <Flex justify="between" wrap="wrap" mx="2" mt="7">
@@ -84,9 +104,16 @@ const Cart = () => {
                   <Box>
                     <Select.Root
                       value={String(item.quantity)}
-                      onValueChange={(val) =>
-                        addToCartHandler(item, Number(val))
-                      }
+                      onValueChange={(val) => {
+                        const newQuantity = Number(val);
+                        if (newQuantity <= item.countInStock) {
+                          updateQuantityHandler(item._id, newQuantity);
+                        } else {
+                          toast.error(
+                            `Only ${item.countInStock} items available`
+                          );
+                        }
+                      }}
                     >
                       <Select.Trigger>{item.quantity}</Select.Trigger>
                       <Select.Content
@@ -120,6 +147,24 @@ const Cart = () => {
                     Items (
                     {cartItems.reduce((acc, item) => acc + item.quantity, 0)})
                   </Text>
+
+                  {cartItems.some(
+                    (item) => item.quantity > item.countInStock
+                  ) && (
+                    <Box
+                      mt="2"
+                      style={{
+                        background: "var(--red-3)",
+                        padding: "8px",
+                        borderRadius: "4px",
+                      }}
+                    >
+                      <Text size="2" color="red">
+                        ⚠️ Some items in your cart exceed available stock
+                      </Text>
+                    </Box>
+                  )}
+
                   <Box mt="4">
                     <Text size="5" as="p" weight="medium">
                       ${" "}
@@ -134,10 +179,17 @@ const Cart = () => {
                   <Button
                     mt="4"
                     radius="full"
-                    disabled={cartItems.length === 0}
+                    disabled={
+                      cartItems.length === 0 ||
+                      cartItems.some(
+                        (item) => item.quantity > item.countInStock
+                      )
+                    }
                     onClick={checkoutHandler}
                   >
-                    Proceed To Checkout
+                    {cartItems.some((item) => item.quantity > item.countInStock)
+                      ? "Adjust quantities to proceed"
+                      : "Proceed To Checkout"}
                   </Button>
                 </Box>
               </Container>

@@ -157,7 +157,9 @@ const Order = () => {
                     </Table.Cell>
                     <Table.Cell>{item.quantity}</Table.Cell>
                     <Table.Cell>$ {item.price}</Table.Cell>
-                    <Table.Cell>$ {item.quantity * item.price}</Table.Cell>
+                    <Table.Cell>
+                      $ {(item.quantity * item.price).toFixed(2)}
+                    </Table.Cell>
                   </Table.Row>
                 ))}
               </Table.Body>
@@ -204,7 +206,7 @@ const Order = () => {
           <DataList.Root>
             <DataList.Item>
               <DataList.Label>Items:</DataList.Label>
-              <DataList.Value>$ {order?.itemsPrice}</DataList.Value>
+              <DataList.Value>$ {order?.itemsPrice.toFixed(2)}</DataList.Value>
             </DataList.Item>
             <DataList.Item>
               <DataList.Label>Shipping:</DataList.Label>
