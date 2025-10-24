@@ -63,23 +63,20 @@ app.get("/api/config/stripe", (req, res) => {
 
 const __dirname = path.resolve();
 
-if (process.env.NODE_ENV === "production") {
+if (process.env.NODE_ENV === "development") {
   console.log(
-    "Production mode: Serving static files from",
-    path.join(__dirname, "frontend", "dist")
+    "Development mode: Serving static files from",
+    path.join(__dirname, "..", "frontend", "dist")
   );
-  // Serve static files from the frontend dist directory
-  app.use(express.static(path.join(__dirname, "frontend", "dist")));
+  app.use(express.static(path.join(__dirname, "..", "frontend", "dist")));
 
-  // Handle SPA routing - serve index.html for all unknown routes
   app.get(/^\/(?!api).*/, (req, res) => {
-    res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"));
+    res.sendFile(
+      path.resolve(__dirname, "..", "frontend", "dist", "index.html")
+    );
   });
 } else {
-  // Simple check for local dev
-  app.get("/", (req, res) => {
-    res.send("API is running...");
-  });
+  console.log("Production mode: API only - no static file serving");
 }
 
 app.listen(port, () => console.log(`Server running on port: ${port}`));
