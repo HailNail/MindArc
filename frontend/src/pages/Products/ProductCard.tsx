@@ -75,7 +75,11 @@ const ProductCard = ({ product }: ProductCardProps) => {
                 className="w-full h-full rounded-t-lg object-cover aspect-4/3"
               />
               <Box position="absolute" bottom="3" right="3">
-                <Badge radius="full" size={{ initial: "3", md: "1", lg: "2" }}>
+                <Badge
+                  variant="solid"
+                  radius="full"
+                  size={{ initial: "3", md: "1", lg: "2" }}
+                >
                   {product?.brand}
                 </Badge>
               </Box>
