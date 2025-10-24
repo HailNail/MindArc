@@ -19,7 +19,6 @@
     "@eslint/js": "^9.33.0",
     "concurrently": "^9.2.1",
     "cross-env": "^10.1.0",
-    "dotenv-cli": "^10.0.0",
     "eslint": "^9.33.0",
     "globals": "^16.3.0",
     "nodemon": "^3.1.10",
@@ -28,6 +27,7 @@
   },
   "dependencies": {
     "@stripe/stripe-js": "^8.1.0",
-    "dotenv": "^17.2.3"
+    "dotenv": "^17.2.3",
+    "dotenv-cli": "^10.0.0"
   }
 }
