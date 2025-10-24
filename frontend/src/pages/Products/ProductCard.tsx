@@ -95,6 +95,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
                 >
                   <Badge
                     radius="full"
+                    variant="solid"
                     color="ruby"
                     size={{ initial: "3", md: "1", lg: "2" }}
                   >

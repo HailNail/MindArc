@@ -140,6 +140,7 @@ const ProductDetails = () => {
                         <Badge
                           radius="full"
                           color="ruby"
+                          variant="solid"
                           size={{ initial: "3", md: "1", lg: "2" }}
                         >
                           {`The product is out of stock`}
