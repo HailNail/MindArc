@@ -51,6 +51,17 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
+app.use("/api/users", userRoutes);
+app.use("/api/category", categoryRoutes);
+app.use("/api/products", productRoutes);
+app.use("/api/upload", uploadRoutes);
+app.use("/api/orders", orderRoutes);
+app.use("/api/stripe", stripeRoutes);
+
+app.get("/api/config/stripe", (req, res) => {
+  res.send({ publishableKey: config.stripe.publishableKey });
+});
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -65,16 +76,5 @@ if (process.env.NODE_ENV === "production") {
     res.sendFile(path.resolve(staticPath, "index.html"))
   );
 }
-
-app.use("/api/users", userRoutes);
-app.use("/api/category", categoryRoutes);
-app.use("/api/products", productRoutes);
-app.use("/api/upload", uploadRoutes);
-app.use("/api/orders", orderRoutes);
-app.use("/api/stripe", stripeRoutes);
-
-app.get("/api/config/stripe", (req, res) => {
-  res.send({ publishableKey: config.stripe.publishableKey });
-});
 
 app.listen(port, () => console.log(`Server running on port: ${port}`));
