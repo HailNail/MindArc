@@ -11,7 +11,7 @@ export default defineConfig({
     emptyOutDir: true,
   },
   plugins: [react(), tailwindcss(), svgr()],
-  base: "./",
+  base: "/",
   resolve: {
     alias: {
       "@": "./src",

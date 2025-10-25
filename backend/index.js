@@ -62,19 +62,4 @@ app.get("/api/config/stripe", (req, res) => {
   res.send({ publishableKey: config.stripe.publishableKey });
 });
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-if (process.env.NODE_ENV === "production") {
-  const staticPath = path.join(__dirname, "../frontend/dist");
-  console.log("Serving static files from:", staticPath);
-
-  app.use(express.static(staticPath));
-
-  // Catch-all route (React Router support)
-  app.get(/^\/(?!api).*/, (req, res) => {
-    res.sendFile(path.resolve(staticPath, "index.html"));
-  });
-}
-
 app.listen(port, () => console.log(`Server running on port: ${port}`));
