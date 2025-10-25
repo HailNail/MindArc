@@ -1,4 +1,5 @@
 import path from "path";
+import { fileURLToPath } from "url";
 
 // packages
 import config from "./config/config.js";
@@ -49,6 +50,21 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+if (process.env.NODE_ENV === "production") {
+  const staticPath = path.join(__dirname, "../frontend/dist");
+  console.log("Serving static files from:", staticPath);
+
+  app.use(express.static(staticPath));
+
+  // Catch-all route (React Router support)
+  app.get("*", (req, res) =>
+    res.sendFile(path.resolve(staticPath, "index.html"))
+  );
+}
 
 app.use("/api/users", userRoutes);
 app.use("/api/category", categoryRoutes);
