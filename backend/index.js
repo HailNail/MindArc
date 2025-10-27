@@ -1,9 +1,5 @@
-import path from "path";
-import { fileURLToPath } from "url";
-
 // packages
 import config from "./config/config.js";
-import passport from "./config/passport.js";
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
@@ -51,7 +47,6 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(passport.initialize());
 
 app.use("/api/users", userRoutes);
 app.use("/api/category", categoryRoutes);
