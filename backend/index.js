@@ -21,7 +21,7 @@ const app = express();
 
 const allowedOrigins = [
   "https://mind-arc-mu.vercel.app",
-  "https://mind-fojl3ckq4-hailnails-projects.vercel.app",
+  "https://mind-g2l47vywt-hailnails-projects.vercel.app",
 
   "http://localhost:3000",
   "http://localhost:5173",
