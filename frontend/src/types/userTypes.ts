@@ -13,6 +13,7 @@ export type UserInfo = {
   password?: string;
   isAdmin?: boolean;
   token?: string;
+  loginType?: "local" | "google";
 };
 
 export type AuthResponse = {

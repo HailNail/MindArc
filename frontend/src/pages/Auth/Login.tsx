@@ -5,7 +5,10 @@ import {
   type CustomFetchError,
 } from "../../types/hooks";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useLoginMutation } from "../../redux/api/usersApiSlice";
+import {
+  useLoginMutation,
+  useLoginWithGoogleMutation,
+} from "../../redux/api/usersApiSlice";
 
 import {
   Box,
@@ -21,6 +24,8 @@ import {
 } from "@radix-ui/themes";
 import { toast } from "react-toastify";
 import { setCredentials } from "../../redux/features/auth/authSlice";
+import { GoogleLogin } from "@react-oauth/google";
+import { useTheme } from "next-themes";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -28,8 +33,10 @@ const Login = () => {
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const { theme } = useTheme();
 
   const [login, { isLoading }] = useLoginMutation();
+  const [loginWithGoogle] = useLoginWithGoogleMutation();
 
   const { userInfo } = useAppSelector((state) => state.auth);
 
@@ -52,7 +59,7 @@ const Login = () => {
     try {
       const res = await login({ email, password }).unwrap();
       console.log(res);
-      dispatch(setCredentials({ ...res }));
+      dispatch(setCredentials({ ...res, loginType: "local" }));
     } catch (error) {
       if (error && typeof error === "object" && "data" in error) {
         const err = error as CustomFetchError;
@@ -76,8 +83,8 @@ const Login = () => {
           <Heading weight="medium" align={{ initial: "center", md: "left" }}>
             Sign IN
           </Heading>
-          <form onSubmit={submitHandler}>
-            <Container width="20rem">
+          <Container width="20rem">
+            <form onSubmit={submitHandler}>
               <Box my="3">
                 <Text as="label" htmlFor="email" size="2" weight="medium">
                   Email Address
@@ -118,24 +125,45 @@ const Login = () => {
                   {isLoading ? <Spinner /> : "Sign In"}
                 </Button>
               </Flex>
-              <Box my="4">
-                <Text as="p">
-                  New Customer?{" "}
-                  <RadixLink asChild>
-                    <Link
-                      to={
-                        redirect
-                          ? `/register?redirect=${redirect}`
-                          : "/register"
-                      }
-                    >
-                      Register
-                    </Link>
-                  </RadixLink>
-                </Text>
-              </Box>
-            </Container>
-          </form>
+            </form>
+            <Box mt="4">
+              <GoogleLogin
+                theme={theme === "dark" ? "filled_black" : "outline"}
+                size="large"
+                shape="circle"
+                text="signin_with"
+                logo_alignment="center"
+                onSuccess={async (credentialResponse) => {
+                  try {
+                    const token = credentialResponse.credential!;
+                    const user = await loginWithGoogle({
+                      token,
+                    }).unwrap();
+                    dispatch(setCredentials({ ...user, loginType: "google" }));
+                  } catch (error) {
+                    console.error("Google login failed", error);
+                  }
+                }}
+                onError={() => {
+                  console.log("Google login failed");
+                }}
+              ></GoogleLogin>
+            </Box>
+            <Box my="4">
+              <Text as="p">
+                New Customer?{" "}
+                <RadixLink asChild>
+                  <Link
+                    to={
+                      redirect ? `/register?redirect=${redirect}` : "/register"
+                    }
+                  >
+                    Register
+                  </Link>
+                </RadixLink>
+              </Text>
+            </Box>
+          </Container>
         </Box>
         <AspectRatio ratio={18 / 8}>
           <img

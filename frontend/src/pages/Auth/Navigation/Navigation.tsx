@@ -77,6 +77,7 @@ const Navigation = ({
   sidebarRef,
 }: NavigationProps) => {
   const { userInfo } = useSelector((state: RootState) => state.auth);
+  const destination = userInfo?.loginType === "google" ? "/orders" : "/profile";
 
   const [expanded, setExpanded] = useState(false);
   const [pinned, setPinned] = useState(false);
@@ -302,7 +303,7 @@ const Navigation = ({
                   </>
                 )}
                 <MotionItem asChild>
-                  <Link to={"/profile"}>
+                  <Link to={destination}>
                     <motion.div
                       className="cursor-pointer"
                       variants={itemVariants}

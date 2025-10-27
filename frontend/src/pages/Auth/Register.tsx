@@ -24,6 +24,7 @@ import {
 import { toast } from "react-toastify";
 import { setCredentials } from "../../redux/features/auth/authSlice";
 import { GoogleLogin } from "@react-oauth/google";
+import { useTheme } from "next-themes";
 
 const Register = () => {
   const [username, setUsername] = useState("");
@@ -33,6 +34,7 @@ const Register = () => {
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const { theme } = useTheme();
 
   const [register, { isLoading }] = useRegisterMutation();
   const [loginWithGoogle] = useLoginWithGoogleMutation();
@@ -55,7 +57,7 @@ const Register = () => {
     } else {
       try {
         const res = await register({ username, email, password }).unwrap();
-        dispatch(setCredentials({ ...res }));
+        dispatch(setCredentials({ ...res, loginType: "local" }));
         navigate(redirect);
         toast.success("User successfully registered");
       } catch (error) {
@@ -167,11 +169,18 @@ const Register = () => {
               </form>
               <Box mt="4">
                 <GoogleLogin
+                  theme={theme === "dark" ? "filled_black" : "outline"}
+                  size="large"
+                  shape="circle"
+                  text="signup_with"
+                  logo_alignment="center"
                   onSuccess={async (credentialResponse) => {
                     try {
                       const token = credentialResponse.credential!;
                       const user = await loginWithGoogle({ token }).unwrap();
-                      dispatch(setCredentials(user));
+                      dispatch(
+                        setCredentials({ ...user, loginType: "google" })
+                      );
                     } catch (error) {
                       console.error("Google login failed", error);
                     }
