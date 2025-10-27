@@ -106,6 +106,7 @@ const Login = () => {
         dispatch(setCredentials(user));
       },
       onError: () => console.log("Google login failed"),
+      flow: "implicit",
     });
 
     return (
