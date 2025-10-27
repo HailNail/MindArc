@@ -77,7 +77,8 @@ const Navigation = ({
   sidebarRef,
 }: NavigationProps) => {
   const { userInfo } = useSelector((state: RootState) => state.auth);
-  const destination = userInfo?.loginType === "google" ? "/orders" : "/profile";
+  const destination =
+    userInfo?.loginType === "google" ? "/user-orders" : "/profile";
 
   const [expanded, setExpanded] = useState(false);
   const [pinned, setPinned] = useState(false);
