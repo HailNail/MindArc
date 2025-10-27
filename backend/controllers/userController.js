@@ -4,6 +4,7 @@ import bcrypt from "bcryptjs";
 import createToken from "../utils/createToken.js";
 import config from "../config/config.js";
 import { OAuth2Client } from "google-auth-library";
+import axios from "axios";
 
 const client = new OAuth2Client(config.google.clientId);
 
@@ -68,12 +69,16 @@ const loginWithGoogle = asyncHandler(async (req, res) => {
   const { token } = req.body;
 
   try {
-    const ticket = await client.verifyIdToken({
-      idToken: token,
-      audience: config.google.clientId,
-    });
-
-    const { email, name, picture } = ticket.getPayload();
+    const { data } = await axios.get(
+      "https://www.googleapis.com/oauth2/v3/userinfo",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    console.log(token);
+    const { email, name, picture } = data;
 
     let user = await User.findOne({ email });
 
