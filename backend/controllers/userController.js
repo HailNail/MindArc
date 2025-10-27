@@ -2,6 +2,10 @@ import asyncHandler from "../middlewares/asyncHandler.js";
 import User from "../models/userModel.js";
 import bcrypt from "bcryptjs";
 import createToken from "../utils/createToken.js";
+import config from "../config/config.js";
+import { OAuth2Client } from "google-auth-library";
+
+const client = new OAuth2Client(config.google.clientId);
 
 const createUser = asyncHandler(async (req, res) => {
   const { username, email, password } = req.body;
@@ -57,6 +61,42 @@ const loginUser = asyncHandler(async (req, res) => {
 
       return;
     }
+  }
+});
+
+const loginWithGoogle = asyncHandler(async (req, res) => {
+  const { token } = req.body;
+
+  try {
+    const ticket = await client.verifyIdToken({
+      idToken: token,
+      audience: config.google.clientId,
+    });
+
+    const { email, name, picture } = ticket.getPayload();
+
+    let user = await User.findOne({ email });
+
+    if (!user) {
+      user = await User.create({
+        username: name,
+        email,
+        password: null,
+        avatar: picture,
+      });
+    }
+
+    createToken(res, user._id);
+    res.status(200).json({
+      _id: user._id,
+      username: user.username,
+      email: user.email,
+      avatar: user.avatar,
+      isAdmin: user.isAdmin,
+    });
+  } catch (error) {
+    console.error("Google login failed:", error);
+    res.status(500).json({ message: "Google login failed" });
   }
 });
 
@@ -167,6 +207,7 @@ const updateUserById = asyncHandler(async (req, res) => {
 export {
   createUser,
   loginUser,
+  loginWithGoogle,
   logoutCurrentUser,
   getAllUsers,
   getCurrentUserProfile,

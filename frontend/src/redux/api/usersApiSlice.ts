@@ -30,6 +30,13 @@ export const userApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+    loginWithGoogle: builder.mutation<AuthResponse, { token: string }>({
+      query: (body) => ({
+        url: `${USERS_URL}/google`,
+        method: "POST",
+        body,
+      }),
+    }),
     profile: builder.mutation<AuthResponse, Partial<User>>({
       query: (data) => ({
         url: `${USERS_URL}/profile`,
@@ -75,6 +82,7 @@ export const {
   useLoginMutation,
   useLogoutMutation,
   useRegisterMutation,
+  useLoginWithGoogleMutation,
   useProfileMutation,
   useGetUsersQuery,
   useDeleteUserMutation,
