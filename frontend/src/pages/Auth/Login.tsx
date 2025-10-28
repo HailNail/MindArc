@@ -24,8 +24,7 @@ import {
 } from "@radix-ui/themes";
 import { toast } from "react-toastify";
 import { setCredentials } from "../../redux/features/auth/authSlice";
-import { GoogleLogin, useGoogleLogin } from "@react-oauth/google";
-import { useTheme } from "next-themes";
+import { useGoogleLogin } from "@react-oauth/google";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -33,7 +32,6 @@ const Login = () => {
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { theme } = useTheme();
 
   const [login, { isLoading }] = useLoginMutation();
   const [loginWithGoogle] = useLoginWithGoogleMutation();
@@ -103,7 +101,7 @@ const Login = () => {
       onSuccess: async (credentialResponse) => {
         const token = credentialResponse.access_token;
         const user = await loginWithGoogle({ token }).unwrap();
-        dispatch(setCredentials(user));
+        dispatch(setCredentials({ ...user, loginType: "google" }));
       },
       onError: () => console.log("Google login failed"),
       flow: "implicit",
