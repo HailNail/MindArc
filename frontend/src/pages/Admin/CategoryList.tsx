@@ -5,7 +5,6 @@ import {
   useDeleteCategoryMutation,
   useFetchCategoriesQuery,
 } from "../../redux/api/categoryApiSlice";
-import type { CustomFetchError } from "../../types/hooks";
 import type { Category } from "../../types/categoryTypes";
 
 import { toast } from "react-toastify";
@@ -36,7 +35,8 @@ const CategoryList = () => {
 
   const handleCreateCategory = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name) {
+    const trimmed = name.trim();
+    if (!trimmed) {
       toast.error("Category name cannot be empty");
       return;
     }
@@ -82,12 +82,15 @@ const CategoryList = () => {
   const handleDeleteCategory = async () => {
     if (!selectedCategory) {
       toast.error("No category selected for delete");
-
       return;
     }
     try {
       const res = await deleteCategory(selectedCategory._id).unwrap();
-      toast.success(`Category "${res.name}" deleted successfully`);
+      toast.success(
+        res?.name
+          ? `Category "${res.name}" deleted successfully`
+          : "Category deleted"
+      );
       setSelectedCategory(null);
       setModalVisible(false);
     } catch (error) {
@@ -129,7 +132,9 @@ const CategoryList = () => {
                         setModalVisible(true);
                       }}
                     >
-                      {category.name}
+                      {category.name}{" "}
+                      {category.productCount > 0 &&
+                        `(${category.productCount})`}
                     </Button>
                   </Dialog.Trigger>
                 </Box>
@@ -151,8 +156,10 @@ const CategoryList = () => {
                     await handleDeleteCategory();
                     setModalVisible(false);
                   }}
+                  disableDelete={(selectedCategory?.productCount ?? 0) > 0}
                   buttonText="Update"
                   closeDialog={() => setModalVisible(false)}
+                  originalName={selectedCategory?.name}
                 />
               </Dialog.Content>
             </Dialog.Root>

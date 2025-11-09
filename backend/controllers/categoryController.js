@@ -1,6 +1,6 @@
 import Category from "../models/categoryModel.js";
+import Product from "../models/productModel.js";
 import asyncHandler from "../middlewares/asyncHandler.js";
-import e from "express";
 
 const createCategory = asyncHandler(async (req, res) => {
   try {
@@ -45,8 +45,27 @@ const updateCategory = asyncHandler(async (req, res) => {
 
 const removeCategory = asyncHandler(async (req, res) => {
   try {
+    const categoryId = req.params.categoryId;
+
+    const existingProduct = await Product.findOne({ category: categoryId });
+    if (existingProduct) {
+      return res.status(400).json({
+        error:
+          "Cannot delete category because it is assigned to one or more products.",
+      });
+    }
+
     const removed = await Category.findByIdAndDelete(req.params.categoryId);
-    res.json(removed);
+    if (!removed) {
+      return res.status(400).json({
+        error: "Category not found",
+      });
+    }
+    res.json({
+      message: "Category deleted successfully",
+      id: removed._id,
+      name: removed.name,
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ "Internal Server Error": error.message });
@@ -55,8 +74,15 @@ const removeCategory = asyncHandler(async (req, res) => {
 
 const listCategory = asyncHandler(async (req, res) => {
   try {
-    const all = await Category.find({});
-    res.json(all);
+    const categories = await Category.find({});
+    const categoriesWithCount = await Promise.all(
+      categories.map(async (category) => {
+        const count = await Product.countDocuments({ category: category._id });
+        return { ...category._doc, productCount: count };
+      })
+    );
+
+    res.json(categoriesWithCount);
   } catch (error) {
     console.error(error);
     res.status(400).json(error.message);

@@ -4,4 +4,5 @@ export type Category = {
   description?: string;
   createdAt?: string;
   updatedAt?: string;
+  productCount: number;
 };
